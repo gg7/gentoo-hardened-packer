@@ -1,0 +1,4 @@
+# <fs>            <mount>  <type>  <opts>                 <dump/pass>
+PARTLABEL=boot    /boot    ext2    noauto,noatime         1 2
+PARTLABEL=gentoo  /        btrfs   noatime,compress=zlib  0 1
+PARTLABEL=swap    none     swap    sw                     0 0

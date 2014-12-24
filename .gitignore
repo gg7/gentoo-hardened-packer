@@ -1,4 +1,6 @@
-packer_cache/
 /*.box
-output-virtualbox-iso/
-output-vmware-iso/
+/downloads/
+/gentoo-hardened-latest.json
+/meta/password
+/output-virtualbox-iso/
+/packer_cache/

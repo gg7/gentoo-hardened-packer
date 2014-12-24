@@ -11,7 +11,7 @@
         "<wait10>",
         "<wait10>",
         "<wait10>",
-        "passwd {{user `username`}}",
+        "passwd root",
         "<enter>",
         "<wait>",
         "{{user `password`}}",
@@ -25,27 +25,29 @@
         "<wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 60000,
-      "guest_os_type": "linux",
+      "disk_size": 20000,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Gentoo_64",
       "headless": true,
-      "iso_checksum": "20dc09c811940c8742a9d1c7fa6da7cf8eaecf6c24797c67a00ba3d36e80d66f3d2555c6dbe9be303c0304cbdf51eaaca2deda8f523872912f58119663b4ffc5",
+      "iso_checksum": "<iso_checksum>",
       "iso_checksum_type": "sha512",
-      "iso_url": "http://distfiles.gentoo.org/releases/amd64/autobuilds/{{user `stage3`}}/install-amd64-minimal-{{user `stage3`}}.iso",
+      "iso_url": "<iso_file>",
       "shutdown_command": "shutdown -hP now",
       "ssh_password": "{{user `password`}}",
-      "ssh_username": "{{user `username`}}",
+      "ssh_username": "root",
       "ssh_wait_timeout": "20s",
-      "type": "vmware-iso",
-      "vm_name": "Gentoo",
-      "vmx_data": {
-        "memsize": "1024"
-      }
+      "type": "virtualbox-iso",
+      "vm_name": "Gentoo Hardened (amd64, nomultilib)",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ]
+      ]
     }
   ],
-  "description": "Faithful Stage 3 Gentoo Installation (VMWare)",
+  "description": "Gentoo Hardened (amd64, nomultilib)",
   "post-processors": [
     {
-      "output": "gentoo-amd64-stage3-vmware.box",
+      "output": "gentoo-hardened-amd64-nomultilib-virtualbox.box",
       "type": "vagrant"
     }
   ],
@@ -56,21 +58,27 @@
       "type": "file"
     },
     {
+      "destination": "/tmp",
+      "source": "files",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/<stage3_tarball>",
+      "source": "downloads/<stage3_tarball>",
+      "type": "file"
+    },
+    {
       "environment_vars": [
-        "STAGE3={{user `stage3`}}",
-        "VM_TYPE=vmware",
-        "SCRIPTS=/tmp"
+        "STAGE3TARBALL=<stage3_tarball>"
       ],
       "scripts": [
-        "provision.sh"
+        "scripts/provision.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
-    "password": "packer",
-    "stage3": "20141002",
-    "username": "root"
+    "password": "<password>"
   }
 }
 

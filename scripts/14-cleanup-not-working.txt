@@ -1,0 +1,10 @@
+chroot /mnt/gentoo /bin/bash <<-EOF
+	ACCEPT_KEYWORDS="~amd64" emerge -q --buildpkgonly sys-fs/zerofree
+EOF
+
+mv /mnt/gentoo/usr/portage/packages /usr/portage/
+cd /tmp
+tar xvf /usr/portage/packages/sys-fs/zerofree-*.tbz2
+
+mount -o remount,ro /mnt/gentoo
+./sbin/zerofree /dev/sda4
